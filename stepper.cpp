@@ -14,33 +14,21 @@ Stepper::Stepper(int pin0, int pin1, int pin2, int pin3) {
 	DDRL |= _BV(pin0) | _BV(pin1) | _BV(pin2) | _BV(pin3);
 }
 
-// step makes the stepper motor take a single step.
-void Stepper::step(int iteration) {
+// Step makes the stepper motor take a single step.
+void Stepper::Step(int iteration) {
 	// TODO: I probably need to make PORTL a parameter as well.
-	switch (iteration % 7) {
+	switch (iteration % 4) {
 	case 0:
-		PORTL = _BV(pin3);
-		break;
-	case 1:
-		PORTL = _BV(pin1) + _BV(pin3);
-		break;
-	case 2:
-		PORTL = _BV(pin2);
-		break;
-	case 3:
-		PORTL = _BV(pin1) + _BV(pin2);
-		break;
-	case 4:
 		PORTL = _BV(pin1);
 		break;
-	case 5:
-		PORTL = _BV(pin0) + _BV(pin1);
+	case 1:
+		PORTL = _BV(pin2);
 		break;
-	case 6:
+	case 2:
+		PORTL = _BV(pin3);
+		break;
+	case 3:
 		PORTL = _BV(pin0);
-		break;
-	case 7:
-		PORTL = _BV(pin0) + _BV(pin3);
 		break;
 	}
 }
@@ -48,15 +36,15 @@ void Stepper::step(int iteration) {
 // Move makes the stepper motor move. The step parameter establishes
 // how many steps the stepper motor should take. The other two
 // parameters are optional,
-void Stepper::Move(int steps, int interval, int direction) {
+void Stepper::Move(int steps, int direction, int interval) {
 	if (direction) {
 		for (int i=steps; i>0; i--) {
-			step(i);
+			Step(i);
 			_delay_ms(interval);
 		}
 	} else {
 		for (int i=0; i<steps; i++) {
-			step(i);
+			Step(i);
 			_delay_ms(interval);
 		}
 	}
