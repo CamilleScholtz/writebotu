@@ -3,14 +3,24 @@
 
 #include "stepper.h"
 
-#define PIN0 PL7
-#define PIN1 PD5
-#define PIN2 PD3
-#define PIN3 PD1
+#define PINL0 PL7
+#define PINL1 PD5
+#define PINL2 PD3
+#define PINL3 PD1
+
+#define PINR0 PD6
+#define PINR1 PD4
+#define PINR2 PD2
+#define PINR3 PD0
 
 int main(){
-	Stepper sr(PIN0, PIN1, PIN2, PIN3);
-	sr.Move(5000);
+	Stepper sl(PINL0, PINL1, PINL2, PINL3);
+	Stepper sr(PINR0, PINR1, PINR2, PINR3);
+
+	while (1) {
+		sl.Move(1000);
+		sr.Move(1000);
+	}
 
 	return 0;
 }
