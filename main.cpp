@@ -10,7 +10,7 @@
 
 int main(){
 	Stepper sr(PIN0, PIN1, PIN2, PIN3);
-	sr.Step(90000);
+	sr.Move(5000);
 
 	return 0;
 }
