@@ -2,6 +2,7 @@
 #include <util/delay.h>
 
 #include "stepper.h"
+#include "drawer.h"
 
 #define PINL_0 PL7
 #define PINL_1 PD5
@@ -17,16 +18,9 @@ int main() {
 	Stepper sl(PINL_0, PINL_1, PINL_2, PINL_3);
 	Stepper sr(PINR_0, PINR_1, PINR_2, PINR_3);
 
-	while (0) {
-		for (int i=0; i<500; i++) {
-			sl.Move(8);
-			sr.Move(-8);
-		}
-		for (int i=0; i<500; i++) {
-			sl.Move(-8);
-			sr.Move(8);
-		}
-	}
+	Drawer d(sl, sr);
+	d.Move(200, -1000);
+
 
 	return 0;
 }

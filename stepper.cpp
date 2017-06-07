@@ -11,7 +11,6 @@ Stepper::Stepper(int pin0, int pin1, int pin2, int pin3) {
 	DDRL |= _BV(pin0) | _BV(pin1) | _BV(pin2) | _BV(pin3);
 }
 
-// Step makes the stepper motor take a single step.
 void Stepper::Step(int iteration) {
 	// TODO: I probably need to make PORTL a parameter as well.
 	switch (iteration % 4) {
@@ -30,10 +29,6 @@ void Stepper::Step(int iteration) {
 	}
 }
 
-// Move makes the stepper motor move. The step parameter establishes
-// how many steps the stepper motor should take, if the step paramater
-// contains a negative value the stepper will step in a counter
-// clockwise direcection. The interval parameter is optional.
 void Stepper::Move(int steps, int interval) {
 	if (steps > 0) {
 		for (int i=0; i<steps; i++) {

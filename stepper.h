@@ -21,7 +21,7 @@ public:
 	void Step(int iteration);
 
 	// Move makes the stepper motor move. The step parameter
-	// establishes how many steps the stepper motor should take, if
+	// establishes how many steps the stepper motor should make, if
 	// the step paramate contains a negative value the stepper will
 	// step in a counter clockwise direcection. The interval parameter
 	// is optional.
