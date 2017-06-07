@@ -13,18 +13,18 @@
 #define PINR_2 PD2
 #define PINR_3 PD0
 
-int main(){
+int main() {
 	Stepper sl(PINL_0, PINL_1, PINL_2, PINL_3);
 	Stepper sr(PINR_0, PINR_1, PINR_2, PINR_3);
 
 	while (0) {
 		for (int i=0; i<500; i++) {
-			sl.Move(8, 0);
-			sr.Move(8, 1);
+			sl.Move(8);
+			sr.Move(-8);
 		}
 		for (int i=0; i<500; i++) {
-			sl.Move(8, 1);
-			sr.Move(8, 0);
+			sl.Move(-8);
+			sr.Move(8);
 		}
 	}
 
