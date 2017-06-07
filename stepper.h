@@ -1,9 +1,10 @@
 #ifndef STEPPER_H
 #define STEPPER_H
 
-#include <stdlib.h>
 #include <avr/io.h>
-#include <util/delay.h>
+#include <stdlib.h>
+
+#include "util.h"
 
 // Stepper is class for simpler interaction with stepper motors.
 class Stepper {
@@ -20,12 +21,12 @@ public:
 	// Step makes the stepper motor take a single step.
 	void Step(int iteration);
 
-	// Move makes the stepper motor move. The step parameter
+	// Turn makes the stepper motor Turn. The step parameter
 	// establishes how many steps the stepper motor should make, if
 	// the step paramate contains a negative value the stepper will
 	// step in a counter clockwise direcection. The interval parameter
 	// is optional.
-	void Move(int steps, int interval=3);
+	void Turn(int steps, int interval=1);
 };
 
 #endif

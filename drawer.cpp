@@ -4,39 +4,56 @@ Drawer::Drawer(Stepper &lstepper, Stepper &rstepper):
 	lstepper(lstepper), rstepper(rstepper)
 {}
 
-void Drawer::Move(int lsteps, int rsteps, int interval) {
-	// Since we use move (which takes at least 8 steps to actually do
-	// sometething) we divide our steps by 8, just to stay consitent
-	// with our terminology.
-	lsteps /= 8;
-	rsteps /= 8;
-
-	// Decide if we should feed Move a positive or negitive number.
-	// TODO: Can I simplify this?
-	int lmove = 8;
-	if (lsteps<0) {
-		lmove = -8;
+void Drawer::Turn(int lsteps, int rsteps, int linterval,
+	int rinterval) {
+	int li = 0;
+	if (lsteps < 0) {
+		li = abs(lsteps);
 	}
-	int rmove = 8;
-	if (rsteps<0) {
-		rmove = -8;
+	int ri = 0;
+	if (rsteps < 0) {
+		ri = abs(rsteps);
 	}
 
-	// Now move our steppers.
-	// TODO: Is there actually a better way of moving multiple
-	// steppers at the same time? This is a bit crude.
-	// TODO: Make interval a paramet as well, or maybe just remove it?
-	// TODO: Add delay if l/r < 0 maybe.
-	int l = abs(lsteps);
-	int r = abs(rsteps);
-	while (l>0 || r>0) {
-		if (l>0) {
-			lstepper.Move(lmove);
-			l--;
+	while ((li >= 0  && li <= abs(lsteps)) || (ri >= 0  && ri <=
+		abs(rsteps))) {
+		if (li >= 0 && li <= abs(lsteps)) {
+			if (lsteps > 0) {
+				lstepper.Step(li);
+				li++;
+			} else {
+				lstepper.Step(li);
+				li--;
+			}
 		}
-		if (r>0) {
-			rstepper.Move(rmove);
-			r--;
+		if (ri >= 0 && ri <= abs(rsteps)) {
+			if (rsteps > 0) {
+				rstepper.Step(ri);
+				ri++;
+			} else {
+				rstepper.Step(ri);
+				ri--;
+			}
 		}
+
+		// TODO: Should I Delay here or..?
+		Delay(linterval+rinterval);
+	}
+}
+
+void Drawer::Goto(int degree, int steps) {
+	// Make degree actually a degree.
+	degree %= 360;
+
+	switch (degree) {
+	case 0:
+		Turn(steps, -steps);
+		break;
+	case 90:
+		Turn(steps/2, steps, 6, 3);
+		break;
+	case 180:
+		Turn(-steps, steps);
+		break;
 	}
 }

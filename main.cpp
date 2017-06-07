@@ -19,8 +19,7 @@ int main() {
 	Stepper sr(PINR_0, PINR_1, PINR_2, PINR_3);
 
 	Drawer d(sl, sr);
-	d.Move(200, -1000);
-
+	d.Turn(3200, 3200);
 
 	return 0;
 }

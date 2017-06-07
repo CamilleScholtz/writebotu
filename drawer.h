@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 
+#include "util.h"
 #include "stepper.h"
 
 // Drawer is class for simpler interaction with *multiple* stepper
@@ -11,6 +12,9 @@ class Drawer {
 private:
 	// The steppers we want to use.
 	Stepper lstepper, rstepper;
+
+	// The current posiontion of our pen.
+	int x, y;
 public:
 	Drawer(Stepper &lstepper, Stepper &rstepper);
 
@@ -19,8 +23,11 @@ public:
 	// and the rstep parameter establishes how many steps the right
 	// stepper motor shoud make. if the step paramate contains a
 	// negative value the steppers will step in a counter clockwise
-	// direcection. The interval parameter is optional.
-	void Move(int lsteps, int rsteps, int interval=3);
+	// direcection.
+	void Turn(int lsteps, int rsteps, int linterval=1,
+		int rinterval=1);
+
+	void Goto(int degree, int steps);
 };
 
 #endif
