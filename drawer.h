@@ -1,9 +1,10 @@
 #ifndef DRAWER_H
 #define DRAWER_H
 
+#include <avr/io.h>
 #include <stdlib.h>
 
-#include "util.h"
+#include "millis.h"
 #include "stepper.h"
 
 // Drawer is class for simpler interaction with *multiple* stepper
@@ -23,11 +24,11 @@ public:
 	// and the rstep parameter establishes how many steps the right
 	// stepper motor shoud make. if the step paramate contains a
 	// negative value the steppers will step in a counter clockwise
-	// direcection.
-	void Turn(int lsteps, int rsteps, int linterval=1,
-		int rinterval=1);
+	// direcection. The interval parameters are optional.
+	void Turn(const int lsteps, const int rsteps,
+		const int linterval=1, const int rinterval=1);
 
-	void Goto(int degree, int steps);
+	void Goto(int degree, const int steps);
 };
 
 #endif
