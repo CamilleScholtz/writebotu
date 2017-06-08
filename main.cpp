@@ -1,10 +1,8 @@
 #include <avr/interrupt.h>
 #include <avr/io.h>
-#include <util/delay.h>
 
 #include "drawer.h"
 #include "stepper.h"
-#include "millis.h"
 
 // Define our left pins and ports.
 #define PINL_DDR  DDRL
@@ -27,8 +25,6 @@ int main() {
 		PINL_3);
 	Stepper rstepper(&PINR_DDR, &PINR_PORT, PINR_0, PINR_1, PINR_2,
 		PINR_3);
-
-	//rstepper.Turn(20000, 2);
 
 	Drawer d(lstepper, rstepper);
 	d.Turn(3200, 3200);

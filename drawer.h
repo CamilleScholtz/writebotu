@@ -3,8 +3,8 @@
 
 #include <avr/io.h>
 #include <stdlib.h>
+#include <util/delay.h>
 
-#include "millis.h"
 #include "stepper.h"
 
 // Drawer is class for simpler interaction with *multiple* stepper

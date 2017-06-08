@@ -6,24 +6,38 @@ Drawer::Drawer(Stepper &lstepper, Stepper &rstepper):
 
 void Drawer::Turn(const int lsteps, const int rsteps,
 	const int linterval, const int rinterval) {
-	static millis_t llast = 0;
-	static millis_t rlast = 0;
+	int li = 0;
+	if (lsteps < 0) {
+		li = abs(lsteps);
+	}
+	int ri = 0;
+	if (rsteps < 0) {
+		ri = abs(rsteps);
+	}
 
-	int l = 0;
-	int r = 0;
-	while (true) {
-		millis_t now = millis_get();
+	while ((li >= 0  && li <= abs(lsteps)) || (ri >= 0  && ri <=
+		abs(rsteps))) {
+		if (li >= 0 && li <= abs(lsteps)) {
+			if (lsteps > 0) {
+				lstepper.Step(li, 0);
+				li++;
+			} else {
+				lstepper.Step(li, 0);
+				li--;
+			}
+		}
+		_delay_ms(linterval);
 
-		if (now - llast >= 1) {
-			lstepper.Step(l, 0);
-			llast = now;
-			l++;
+		if (ri >= 0 && ri <= abs(rsteps)) {
+			if (rsteps > 0) {
+				rstepper.Step(ri, 0);
+				ri++;
+			} else {
+				rstepper.Step(ri, 0);
+				ri--;
+			}
 		}
-		if (now - rlast >= 1) {
-			rstepper.Step(r, 0);
-			rlast = now;
-			r++;
-		}
+		_delay_ms(rinterval);
 	}
 }
 
