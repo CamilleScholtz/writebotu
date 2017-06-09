@@ -9,7 +9,7 @@ Stepper::Stepper(volatile uint8_t *ddr, volatile uint8_t *port,
 	*ddr |= _BV(pin0) | _BV(pin1) | _BV(pin2) | _BV(pin3);
 }
 
-void Stepper::Off() {
+void Stepper::Low() {
 	*port = 0b00000000;
 }
 

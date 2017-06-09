@@ -35,9 +35,8 @@ int main() {
 		PINR_3);
 
 	Drawer d(lstepper, rstepper);
-	d.Goto(270, 2000);
-	lstepper.Off();
-	rstepper.Off();
+	d.Goto(90, 2000);
+	d.Low();
 
 	return 0;
 }

@@ -26,7 +26,7 @@ public:
 		const int pin3);
 
 	// Off turns sets all the stepper motor pins to low.
-	void Off();
+	void Low();
 
 	// Step makes the stepper motor take a single step.
 	void Step(const int iteration);

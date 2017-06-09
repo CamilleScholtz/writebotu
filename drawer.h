@@ -17,6 +17,13 @@ private:
 public:
 	Drawer(Stepper &lstepper, Stepper &rstepper);
 
+	// TODO: Description.
+	void Goto(int degree, const int steps,
+		const unsigned int interval=1);
+
+	// Off turns sets all the stepper motor pins to low.
+	void Low();
+
 	// Move makes the stepper motors move. The lstep parameter
 	// establishes how many steps the left stepper motor shoud make
 	// and the rstep parameter establishes how many steps the right
@@ -26,9 +33,6 @@ public:
 	void Turn(const int lsteps, const int rsteps,
 		const unsigned int linterval=1,
 		const unsigned int rinterval=1);
-
-	void Goto(int degree, const int steps,
-		const unsigned int interval=1);
 };
 
 #endif

@@ -4,6 +4,33 @@ Drawer::Drawer(Stepper &lstepper, Stepper &rstepper):
 	lstepper(lstepper), rstepper(rstepper)
 {}
 
+void Drawer::Goto(int degree, const int steps,
+	const unsigned int interval) {
+	// Make degree actually a degree.
+	degree %= 360;
+
+	// TODO: Now think of some algorithm that does this.
+	switch (degree) {
+	case 0:
+		Turn(-steps, steps, interval, interval);
+		break;
+	case 90:
+		Turn(steps/2, steps, interval, interval*2);
+		break;
+	case 180:
+		Turn(steps, -steps, interval, interval);
+		break;
+	case 270:
+		Turn(-steps, -steps/2, interval*2, interval);
+		break;
+	}
+}
+
+void Drawer::Low() {
+	lstepper.Low();
+	rstepper.Low();
+}
+
 // TODO: This function could use some simplification.
 void Drawer::Turn(const int lsteps, const int rsteps,
 	const unsigned int linterval, const unsigned int rinterval) {
@@ -50,27 +77,5 @@ void Drawer::Turn(const int lsteps, const int rsteps,
 				rlast = now;
 			}
 		}
-	}
-}
-
-void Drawer::Goto(int degree, const int steps,
-	const unsigned int interval) {
-	// Make degree actually a degree.
-	degree %= 360;
-
-	// TODO: Now think of some algorithm that does this.
-	switch (degree) {
-	case 0:
-		Turn(-steps, steps, interval, interval);
-		break;
-	case 90:
-		Turn(steps/2, steps, interval, interval*2);
-		break;
-	case 180:
-		Turn(steps, -steps, interval, interval);
-		break;
-	case 270:
-		Turn(-steps, -steps/2, interval*2, interval);
-		break;
 	}
 }
