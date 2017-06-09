@@ -1,27 +1,40 @@
 #include "drawer.h"
 
-Drawer::Drawer(Stepper &lstepper, Stepper &rstepper):
-	lstepper(lstepper), rstepper(rstepper)
+Drawer::Drawer(Stepper &lstepper, Stepper &rstepper,
+	const unsigned int width, const unsigned int dia,
+	const unsigned int spr):
+	lstepper(lstepper), rstepper(rstepper), width(width), dia(dia),
+	spr(spr)
 {}
 
-void Drawer::Goto(int degree, const int steps,
-	const unsigned int interval) {
-	// Make degree actually a degree.
-	degree %= 360;
+int Drawer::ik(unsigned int x, unsigned int y, unsigned int &l0,
+	unsigned int &l1) {
+	unsigned int dy = y-0;
+	unsigned int dx = x-0;
+	l0 = sqrt(dx*dx+dy*dy);
+	dx = x-0;
+	l1 = sqrt(dx*dx+dy*dy);
+}
 
+void Drawer::Goto(unsigned int x, unsigned int y,
+	const unsigned int interval) {
+
+
+	int degree= 2;
+	int steps=200;
 	// TODO: Now think of some algorithm that does this.
 	switch (degree) {
 	case 0:
 		Turn(-steps, steps, interval, interval);
 		break;
 	case 90:
-		Turn(steps/2, steps, interval, interval*2);
+		Turn(steps/3, steps, interval, interval*3);
 		break;
 	case 180:
 		Turn(steps, -steps, interval, interval);
 		break;
 	case 270:
-		Turn(-steps, -steps/2, interval*2, interval);
+		Turn(steps, steps/3, interval*3, interval);
 		break;
 	}
 }
