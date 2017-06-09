@@ -26,10 +26,10 @@ void Drawer::Turn(const int lsteps, const int rsteps,
 		if (now - llast >= rinterval) {
 			if (li >= 0 && li <= abs(lsteps)) {
 				if (lsteps > 0) {
-					lstepper.Step(li, 0);
+					lstepper.Step(li);
 					li++;
 				} else {
-					lstepper.Step(li, 0);
+					lstepper.Step(li);
 					li--;
 				}
 				// TODO: Should I move this down?
@@ -40,10 +40,10 @@ void Drawer::Turn(const int lsteps, const int rsteps,
 		if (now - rlast >= linterval) {
 			if (ri >= 0 && ri <= abs(rsteps)) {
 				if (rsteps > 0) {
-					rstepper.Step(ri, 0);
+					rstepper.Step(ri);
 					ri++;
 				} else {
-					rstepper.Step(ri, 0);
+					rstepper.Step(ri);
 					ri--;
 				}
 				// TODO: Should I move this down?
@@ -53,24 +53,24 @@ void Drawer::Turn(const int lsteps, const int rsteps,
 	}
 }
 
-void Drawer::Goto(int degree, const int steps) {
+void Drawer::Goto(int degree, const int steps,
+	const unsigned int interval) {
 	// Make degree actually a degree.
 	degree %= 360;
-	int i = 1;
 
 	// TODO: Now think of some algorithm that does this.
 	switch (degree) {
 	case 0:
-		Turn(-steps, steps);
+		Turn(-steps, steps, interval, interval);
 		break;
 	case 90:
-		Turn(steps/2, steps, i, i*2);
+		Turn(steps/2, steps, interval, interval*2);
 		break;
 	case 180:
-		Turn(steps, -steps);
+		Turn(steps, -steps, interval, interval);
 		break;
 	case 270:
-		Turn(steps, steps/2, i*2, i);
+		Turn(-steps, -steps/2, interval*2, interval);
 		break;
 	}
 }

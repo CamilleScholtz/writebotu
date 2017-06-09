@@ -25,9 +25,11 @@ public:
 		const int pin0, const int pin1, const int pin2,
 		const int pin3);
 
-	// Step makes the stepper motor take a single step. The interval
-	// parameter is optional.
-	void Step(const int iteration, const unsigned int interval=1);
+	// Off turns sets all the stepper motor pins to low.
+	void Off();
+
+	// Step makes the stepper motor take a single step.
+	void Step(const int iteration);
 
 	// Turn makes the stepper motor Turn. The step parameter
 	// establishes how many steps the stepper motor should make, if

@@ -14,9 +14,6 @@ class Drawer {
 private:
 	// The steppers we want to use.
 	Stepper lstepper, rstepper;
-
-	// The current posiontion of our pen.
-	int x, y;
 public:
 	Drawer(Stepper &lstepper, Stepper &rstepper);
 
@@ -30,7 +27,8 @@ public:
 		const unsigned int linterval=1,
 		const unsigned int rinterval=1);
 
-	void Goto(int degree, const int steps);
+	void Goto(int degree, const int steps,
+		const unsigned int interval=1);
 };
 
 #endif
