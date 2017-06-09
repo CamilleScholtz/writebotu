@@ -2,6 +2,7 @@
 #include <avr/io.h>
 
 #include "drawer.h"
+#include "millis.h"
 #include "stepper.h"
 
 // Define our left pins and ports.
@@ -21,13 +22,20 @@
 #define PINR_3    PC3
 
 int main() {
+	// Initialize millis library.
+	millis_init();
+
+	// Enable interrupts.
+	sei();
+
+	// Create our stepper motor objects.
 	Stepper lstepper(&PINL_DDR, &PINL_PORT, PINL_0, PINL_1, PINL_2,
 		PINL_3);
 	Stepper rstepper(&PINR_DDR, &PINR_PORT, PINR_0, PINR_1, PINR_2,
 		PINR_3);
 
 	Drawer d(lstepper, rstepper);
-	d.Turn(3200, 3200);
+	d.Goto(90, 2000);
 
 	return 0;
 }

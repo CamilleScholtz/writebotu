@@ -9,7 +9,7 @@ Stepper::Stepper(volatile uint8_t *ddr, volatile uint8_t *port,
 	*ddr |= _BV(pin0) | _BV(pin1) | _BV(pin2) | _BV(pin3);
 }
 
-void Stepper::Step(const int iteration, const int interval) {
+void Stepper::Step(const int iteration, const unsigned int interval) {
 	switch (iteration % 7) {
 	case 0:
 		*port = _BV(pin0);
@@ -37,13 +37,12 @@ void Stepper::Step(const int iteration, const int interval) {
 		break;
 	}
 
-	// TODO: This sometimes fucks up.
 	if (interval > 0) {
-		_delay_ms(interval);
+		Delay(interval);
 	}
 }
 
-void Stepper::Turn(const int steps, const int interval) {
+void Stepper::Turn(const int steps, const unsigned int interval) {
 	if (steps > 0) {
 		for (int i=0; i<steps; i++) {
 			Step(i, interval);

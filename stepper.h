@@ -3,7 +3,8 @@
 
 #include <avr/io.h>
 #include <stdlib.h>
-#include <util/delay.h>
+
+#include "util.h"
 
 // Stepper is class for simpler interaction with stepper motors.
 class Stepper {
@@ -26,14 +27,14 @@ public:
 
 	// Step makes the stepper motor take a single step. The interval
 	// parameter is optional.
-	void Step(const int iteration, const int interval=1);
+	void Step(const int iteration, const unsigned int interval=1);
 
 	// Turn makes the stepper motor Turn. The step parameter
 	// establishes how many steps the stepper motor should make, if
 	// the step paramate contains a negative value the stepper will
 	// step in a counter clockwise direcection. The interval parameter
 	// is again optional.
-	void Turn(const int steps, const int interval=1);
+	void Turn(const int steps, const unsigned int interval=1);
 };
 
 #endif

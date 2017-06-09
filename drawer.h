@@ -3,9 +3,10 @@
 
 #include <avr/io.h>
 #include <stdlib.h>
-#include <util/delay.h>
 
+#include "millis.h"
 #include "stepper.h"
+#include "util.h"
 
 // Drawer is class for simpler interaction with *multiple* stepper
 // motors. It also has some neat functions to make drawing easier.
@@ -26,7 +27,8 @@ public:
 	// negative value the steppers will step in a counter clockwise
 	// direcection. The interval parameters are optional.
 	void Turn(const int lsteps, const int rsteps,
-		const int linterval=1, const int rinterval=1);
+		const unsigned int linterval=1,
+		const unsigned int rinterval=1);
 
 	void Goto(int degree, const int steps);
 };
