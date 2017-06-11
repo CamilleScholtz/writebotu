@@ -34,11 +34,9 @@ int main() {
 	Stepper rstepper(&PINR_DDR, &PINR_PORT, PINR_0, PINR_1, PINR_2,
 		PINR_3);
 
-	Drawer d(lstepper, rstepper, 3600, 3, 400);
-	//d.Goto(270, 2000, 2);
-	//d.Low();
-	lstepper.Turn(3600, 1);
-	lstepper.Low();
+	Drawer d(lstepper, rstepper);
+	d.Goto(0, 20);
+	d.Low();
 
 	return 0;
 }

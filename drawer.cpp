@@ -1,42 +1,25 @@
 #include "drawer.h"
 
 Drawer::Drawer(Stepper &lstepper, Stepper &rstepper,
-	const unsigned int width, const unsigned int dia,
-	const unsigned int spr):
-	lstepper(lstepper), rstepper(rstepper), width(width), dia(dia),
-	spr(spr)
+	const unsigned int interval, const unsigned int width,
+	const unsigned height):
+	lstepper(lstepper), rstepper(rstepper), interval(interval),
+	width(width), height(height)
 {}
 
-int Drawer::ik(unsigned int x, unsigned int y, unsigned int &l0,
-	unsigned int &l1) {
-	unsigned int dy = y-0;
-	unsigned int dx = x-0;
-	l0 = sqrt(dx*dx+dy*dy);
-	dx = x-0;
-	l1 = sqrt(dx*dx+dy*dy);
-}
+void Drawer::Goto(const unsigned int x, const unsigned int y) {
+	float llen = sqrt((x*x)+(height-y)*(height-y));
+	float rlen = sqrt((width-x)*(width-x)+(height-y)*(height-y));
 
-void Drawer::Goto(unsigned int x, unsigned int y,
-	const unsigned int interval) {
+	int lsteps = round((llen-cllen)*10);
+	int rsteps = round((rlen-crlen)*10);
 
+	Turn(lsteps, -rsteps);
 
-	int degree= 2;
-	int steps=200;
-	// TODO: Now think of some algorithm that does this.
-	switch (degree) {
-	case 0:
-		Turn(-steps, steps, interval, interval);
-		break;
-	case 90:
-		Turn(steps/3, steps, interval, interval*3);
-		break;
-	case 180:
-		Turn(steps, -steps, interval, interval);
-		break;
-	case 270:
-		Turn(steps, steps/3, interval*3, interval);
-		break;
-	}
+	cllen = llen;
+	crlen = rlen;
+	cx = x;
+	cy = y;
 }
 
 void Drawer::Low() {
@@ -45,6 +28,7 @@ void Drawer::Low() {
 }
 
 // TODO: This function could use some simplification.
+// TODO: Make chords move as fast as each other automatically.
 void Drawer::Turn(const int lsteps, const int rsteps,
 	const unsigned int linterval, const unsigned int rinterval) {
 	millis_t llast = 0;

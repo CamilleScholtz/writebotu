@@ -12,7 +12,7 @@ TODO
 Install the AVR toolchain and arduino-mk, I created CRUX ports for all
 these tools: https://github.com/onodera-punpun/crux-ports-arduino
 
-run `make && sudo make upload`.
+Run `make && sudo make upload`.
 
 
 ## AUTHORS
@@ -20,3 +20,14 @@ run `make && sudo make upload`.
 Camille Scholtz
 
 Millis library by Zak Kemble: https://github.com/zkemble/millis
+
+
+## NOTES
+
+References:
+* https://balau82.wordpress.com/2011/03/29/programming-arduino-uno-in-pure-c/
+* https://www.marginallyclever.com/2012/02/drawbot-overview/
+* http://www.instructables.com/id/CNC-HANGING-PLOTTER/
+
+Similar projects:
+
