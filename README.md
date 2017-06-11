@@ -28,6 +28,4 @@ References:
 * https://balau82.wordpress.com/2011/03/29/programming-arduino-uno-in-pure-c/
 * https://www.marginallyclever.com/2012/02/drawbot-overview/
 * http://www.instructables.com/id/CNC-HANGING-PLOTTER/
-
-Similar projects:
-
+* http://www.homofaciens.de/technics-machines-v-plotter_en.htm

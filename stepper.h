@@ -36,7 +36,7 @@ public:
 	// the step paramate contains a negative value the stepper will
 	// step in a counter clockwise direcection. The interval parameter
 	// is again optional.
-	void Turn(const int steps, const unsigned int interval=2);
+	void Turn(const int steps, const unsigned int interval=3);
 };
 
 #endif

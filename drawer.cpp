@@ -2,20 +2,35 @@
 
 Drawer::Drawer(Stepper &lstepper, Stepper &rstepper,
 	const unsigned int interval, const unsigned int width,
-	const unsigned height):
+	const unsigned int height, const unsigned int offset):
 	lstepper(lstepper), rstepper(rstepper), interval(interval),
-	width(width), height(height)
+	width(width), height(height), offset(offset)
 {}
 
+// TODO: This can be simplified, I'm sure of it.
 void Drawer::Goto(const unsigned int x, const unsigned int y) {
-	float llen = sqrt((x*x)+(height-y)*(height-y));
-	float rlen = sqrt((width-x)*(width-x)+(height-y)*(height-y));
+	// Calculate the target cord lengths.
+	const unsigned int llen = round(sqrt((offset+x)*(offset+x)+(height-y)*(height-y)));
+	const unsigned int rlen = round(sqrt((width-offset-x)*(width-offset-x)+(height-y)*(height-y)));
 
-	int lsteps = round((llen-cllen)*10);
-	int rsteps = round((rlen-crlen)*10);
+	// Calculate the required stepper motor steps.
+	// TODO: I should probably make this 80 here a scale variable or
+	// something.
+	int lsteps = (llen-cllen)*80;
+	int rsteps = (rlen-crlen)*80;
 
-	Turn(lsteps, -rsteps);
+	// Calculate the required intervals.
+	float linterval = interval;
+	float rinterval = interval;
+	if (abs(lsteps) > abs(rsteps)) {
+		linterval = (abs(lsteps)/abs(rsteps))*interval;
+	} else if (abs(rsteps) > abs(lsteps)) {
+		rinterval = (abs(rsteps)/abs(lsteps))*interval;
+	}
 
+	Turn(lsteps, -rsteps, round(linterval), round(rinterval));
+
+	// Set new values.
 	cllen = llen;
 	crlen = rlen;
 	cx = x;

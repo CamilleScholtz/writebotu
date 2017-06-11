@@ -19,21 +19,29 @@ private:
 	// The interval our steppers should use.
 	const unsigned int interval;
 
-	// The width  and height of the drawing area in cm.
+	// The distance between the two stepper motors in mm.
 	const unsigned int width;
+
+	// The vertical distance between the stepper motors and the point
+	// of origin (0,0) in mm.
 	const unsigned int height;
+
+	// The horizonal distance between the stepper motors and the point
+	// of origin (0,0) in mm.
+	const unsigned int offset;
+
+	// The distance of the two cords when the pen is is at (0,0) in
+	// mm.
+	unsigned int cllen = round(sqrt((offset*offset)+(height*height)));
+	unsigned int crlen = round(sqrt((width-offset)*(width-offset)+(height*height)));
 
 	// Our current pen position.
 	unsigned int cx = 0;
 	unsigned int cy = 0;
-
-	// The current length of our chords.
-	float cllen = sqrt(height*height);
-	float crlen = sqrt((width*width)+(height*height));
 public:
 	Drawer(Stepper &lstepper, Stepper &rstepper,
-		const unsigned int interval=2, const unsigned int width=385,
-		const unsigned int height=385);
+		const unsigned int interval=3, const unsigned int width=385,
+		const unsigned int height=455, const unsigned int offset=110);
 
 	// TODO: Description.
 	void Goto(const unsigned int x, const unsigned int y);
@@ -49,8 +57,8 @@ public:
 	// direcection. The interval parameters are optional.
 	// TODO: Use interval.
 	void Turn(const int lsteps, const int rsteps,
-		const unsigned int linterval=2,
-		const unsigned int rinterval=2);
+		const unsigned int linterval=3,
+		const unsigned int rinterval=3);
 };
 
 #endif

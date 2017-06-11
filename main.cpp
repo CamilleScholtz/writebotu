@@ -34,8 +34,26 @@ int main() {
 	Stepper rstepper(&PINR_DDR, &PINR_PORT, PINR_0, PINR_1, PINR_2,
 		PINR_3);
 
+	int a = 8;
 	Drawer d(lstepper, rstepper);
-	d.Goto(0, 20);
+		// Rectangle.
+		d.Goto(0, a);
+		Delay(500);
+		d.Goto(a, a);
+		Delay(500);
+		d.Goto(a, 0);
+		Delay(500);
+		d.Goto(0, 0);
+		Delay(500);
+
+		// Cross rectangle.
+		d.Goto(a, a);
+		Delay(500);
+		d.Goto(0, a);
+		Delay(500);
+		d.Goto(a, 0);
+		Delay(500);
+		d.Goto(0, 0);
 	d.Low();
 
 	return 0;
