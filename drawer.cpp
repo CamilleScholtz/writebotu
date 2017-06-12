@@ -7,11 +7,16 @@ Drawer::Drawer(Stepper &lstepper, Stepper &rstepper,
 	width(width), height(height), offset(offset)
 {}
 
-// TODO: This can be simplified, I'm sure of it.
-void Drawer::Goto(const unsigned int x, const unsigned int y) {
+// TODO: This function could use some simplification.
+void Drawer::Goto(unsigned int x, unsigned int y) {
+	x /= 1000;
+	y /= 1000;
+
 	// Calculate the target cord lengths.
-	const unsigned int llen = round(sqrt((offset+x)*(offset+x)+(height-y)*(height-y)));
-	const unsigned int rlen = round(sqrt((width-offset-x)*(width-offset-x)+(height-y)*(height-y)));
+	const unsigned int llen = round(sqrt((offset+x)*(offset+x)+
+		(height-y)*(height-y)));
+	const unsigned int rlen = round(sqrt((width-offset-x)*
+		(width-offset-x)+(height-y)*(height-y)));
 
 	// Calculate the required stepper motor steps.
 	// TODO: I should probably make this 80 here a scale variable or
@@ -20,12 +25,14 @@ void Drawer::Goto(const unsigned int x, const unsigned int y) {
 	int rsteps = (rlen-crlen)*80;
 
 	// Calculate the required intervals.
+	// TODO: This works for now, but probably won't work on another
+	// setup.
 	float linterval = interval;
 	float rinterval = interval;
 	if (abs(lsteps) > abs(rsteps)) {
-		linterval = (abs(lsteps)/abs(rsteps))*interval;
+		rinterval = ((abs(lsteps)/abs(rsteps))*1.1)*interval;
 	} else if (abs(rsteps) > abs(lsteps)) {
-		rinterval = (abs(rsteps)/abs(lsteps))*interval;
+		linterval = ((abs(rsteps)/abs(lsteps))*1.1)*interval;
 	}
 
 	Turn(lsteps, -rsteps, round(linterval), round(rinterval));
@@ -43,11 +50,10 @@ void Drawer::Low() {
 }
 
 // TODO: This function could use some simplification.
-// TODO: Make chords move as fast as each other automatically.
 void Drawer::Turn(const int lsteps, const int rsteps,
 	const unsigned int linterval, const unsigned int rinterval) {
-	millis_t llast = 0;
-	millis_t rlast = 0;
+	unsigned long llast = 0;
+	unsigned long rlast = 0;
 
 	int li = 0;
 	if (lsteps < 0) {
@@ -60,9 +66,9 @@ void Drawer::Turn(const int lsteps, const int rsteps,
 
 	while ((li >= 0  && li <= abs(lsteps)) || (ri >= 0  && ri <=
 		abs(rsteps))) {
-		millis_t now = millis_get();
+		unsigned long now = millis_get()*1000+(TCNT2*4);
 
-		if (now - llast >= rinterval) {
+		if (now-llast >= linterval) {
 			if (li >= 0 && li <= abs(lsteps)) {
 				if (lsteps > 0) {
 					lstepper.Step(li);
@@ -76,7 +82,7 @@ void Drawer::Turn(const int lsteps, const int rsteps,
 			}
 		}
 
-		if (now - rlast >= linterval) {
+		if (now-rlast >= rinterval) {
 			if (ri >= 0 && ri <= abs(rsteps)) {
 				if (rsteps > 0) {
 					rstepper.Step(ri);

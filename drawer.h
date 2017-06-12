@@ -33,18 +33,20 @@ private:
 	// The distance of the two cords when the pen is is at (0,0) in
 	// mm.
 	unsigned int cllen = round(sqrt((offset*offset)+(height*height)));
-	unsigned int crlen = round(sqrt((width-offset)*(width-offset)+(height*height)));
+	unsigned int crlen = round(sqrt((width-offset)*(width-offset)+
+		(height*height)));
 
 	// Our current pen position.
 	unsigned int cx = 0;
 	unsigned int cy = 0;
 public:
 	Drawer(Stepper &lstepper, Stepper &rstepper,
-		const unsigned int interval=3, const unsigned int width=385,
-		const unsigned int height=455, const unsigned int offset=110);
+		const unsigned int interval=3000,
+		const unsigned int width=388, const unsigned int height=388,
+		const unsigned int offset=100);
 
 	// TODO: Description.
-	void Goto(const unsigned int x, const unsigned int y);
+	void Goto(unsigned int x, unsigned int y);
 
 	// Off turns sets all the stepper motor pins to low.
 	void Low();
@@ -57,8 +59,8 @@ public:
 	// direcection. The interval parameters are optional.
 	// TODO: Use interval.
 	void Turn(const int lsteps, const int rsteps,
-		const unsigned int linterval=3,
-		const unsigned int rinterval=3);
+		const unsigned int linterval=3000,
+		const unsigned int rinterval=3000);
 };
 
 #endif
