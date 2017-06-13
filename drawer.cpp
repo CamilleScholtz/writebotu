@@ -9,8 +9,8 @@ Drawer::Drawer(Stepper &lstepper, Stepper &rstepper,
 
 // TODO: This function could use some simplification.
 void Drawer::Goto(unsigned int x, unsigned int y) {
-	x /= 1000;
-	y /= 1000;
+	//x /= 1000;
+	//y /= 1000;
 
 	// Calculate the target cord lengths.
 	const unsigned int llen = round(sqrt((offset+x)*(offset+x)+
@@ -30,9 +30,9 @@ void Drawer::Goto(unsigned int x, unsigned int y) {
 	float linterval = interval;
 	float rinterval = interval;
 	if (abs(lsteps) > abs(rsteps)) {
-		rinterval = ((abs(lsteps)/abs(rsteps))*1.1)*interval;
+		rinterval = ((abs(lsteps)/abs(rsteps))*1.333)*interval;
 	} else if (abs(rsteps) > abs(lsteps)) {
-		linterval = ((abs(rsteps)/abs(lsteps))*1.1)*interval;
+		linterval = ((abs(rsteps)/abs(lsteps))*1.333)*interval;
 	}
 
 	Turn(lsteps, -rsteps, round(linterval), round(rinterval));

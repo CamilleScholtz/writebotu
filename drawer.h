@@ -42,8 +42,8 @@ private:
 public:
 	Drawer(Stepper &lstepper, Stepper &rstepper,
 		const unsigned int interval=3000,
-		const unsigned int width=388, const unsigned int height=388,
-		const unsigned int offset=100);
+		const unsigned int width=520, const unsigned int height=485,
+		const unsigned int offset=240);
 
 	// TODO: Description.
 	void Goto(unsigned int x, unsigned int y);
