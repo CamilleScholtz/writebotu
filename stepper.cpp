@@ -13,8 +13,14 @@ void Stepper::Low() {
 	*port = 0b00000000;
 }
 
-void Stepper::Step(const int iteration) {
-	switch (iteration % 7) {
+void Stepper::Step(const bool direction) {
+	if (direction) {
+		step = ((step+1)%8+8)%8;
+	} else {
+		step = ((step-1)%8+8)%8;
+	}
+
+	switch (step) {
 	case 0:
 		*port = _BV(pin0);
 		break;
@@ -42,16 +48,10 @@ void Stepper::Step(const int iteration) {
 	}
 }
 
-void Stepper::Turn(const int steps, const unsigned int interval) {
-	if (steps > 0) {
-		for (int i=0; i<steps; i++) {
-			Step(i);
-			Delay(interval);
-		}
-	} else {
-		for (int i=abs(steps); i>0; i--) {
-			Step(i);
-			Delay(interval);
-		}
+void Stepper::Turn(const bool direction, const unsigned int steps,
+	const unsigned int interval) {
+	for (unsigned int i=0; i<steps; i++) {
+		Step(direction);
+		Delay(interval);
 	}
 }

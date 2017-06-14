@@ -1,41 +1,37 @@
 #include "drawer.h"
 
 Drawer::Drawer(Stepper &lstepper, Stepper &rstepper,
-	const unsigned int interval, const unsigned int width,
-	const unsigned int height, const unsigned int offset):
+	const unsigned int interval, const float width,
+	const float height, const float offset):
 	lstepper(lstepper), rstepper(rstepper), interval(interval),
 	width(width), height(height), offset(offset)
 {}
 
-// TODO: This function could use some simplification.
-void Drawer::Goto(unsigned int x, unsigned int y) {
-	//x /= 1000;
-	//y /= 1000;
+void Drawer::Goto(float x, float y) {
+	x -= 4000;
+	y -= 6000;
+	x /= 20;
+	y /= 20;
 
 	// Calculate the target cord lengths.
-	const unsigned int llen = round(sqrt((offset+x)*(offset+x)+
-		(height-y)*(height-y)));
-	const unsigned int rlen = round(sqrt((width-offset-x)*
-		(width-offset-x)+(height-y)*(height-y)));
+	const float llen = sqrt((offset+x)*(offset+x)+
+		(height-y)*(height-y));
+	const float rlen = sqrt((width-offset-x)*
+		(width-offset-x)+(height-y)*(height-y));
 
-	// Calculate the required stepper motor steps.
-	// TODO: I should probably make this 80 here a scale variable or
-	// something.
-	int lsteps = (llen-cllen)*80;
-	int rsteps = (rlen-crlen)*80;
+	// Calculate the required stepper motor steps and direction.
+	// TODO: 32
+	unsigned int lsteps = round(fabs(llen-cllen)*32);
+	unsigned int rsteps = round(fabs(rlen-crlen)*32);
+	bool ldirection = (llen >= cllen);
+	bool rdirection = (rlen <= crlen);
 
-	// Calculate the required intervals.
-	// TODO: This works for now, but probably won't work on another
-	// setup.
-	float linterval = interval;
-	float rinterval = interval;
-	if (abs(lsteps) > abs(rsteps)) {
-		rinterval = ((abs(lsteps)/abs(rsteps))*1.333)*interval;
-	} else if (abs(rsteps) > abs(lsteps)) {
-		linterval = ((abs(rsteps)/abs(lsteps))*1.333)*interval;
-	}
+	// Calculate the required intervals and loops.
+	unsigned int linterval;
+	unsigned int rinterval;
+	Intervals(lsteps, rsteps, linterval, rinterval);
 
-	Turn(lsteps, -rsteps, round(linterval), round(rinterval));
+	Turn(ldirection, rdirection, lsteps, rsteps, interval, rinterval);
 
 	// Set new values.
 	cllen = llen;
@@ -44,53 +40,76 @@ void Drawer::Goto(unsigned int x, unsigned int y) {
 	cy = y;
 }
 
+// TODO: Not 100% perfect yet.
+void Drawer::Intervals(const unsigned int lsteps,
+	const unsigned int rsteps, unsigned int &linterval,
+	unsigned int &rinterval) {
+	unsigned int maxsteps;
+	unsigned int minsteps;
+	if (lsteps > rsteps) {
+		minsteps = rsteps;
+		maxsteps = lsteps;
+	} else {
+		minsteps = lsteps;
+		maxsteps = rsteps;
+	}
+	// Prevent divide by zero.
+	if (minsteps < 1) {
+		minsteps = 1;
+	}
+
+	// Calculate the rotate time for each stepper motor.
+	float rot = (float)maxsteps*(float)interval;
+
+	//  Calculate delay for motor with the least steps.
+	float maxdelay = rot/(float)minsteps;
+
+	// Calculate the number of loops and remainder.
+	unsigned int loops = (unsigned int)(maxdelay/(float)65535);
+	unsigned int remainder = (unsigned int)(maxdelay-(loops*
+		(unsigned int)65535));
+
+	if (lsteps > rsteps){
+		linterval = interval;
+		rinterval = remainder;
+	} else {
+		linterval = remainder;
+		rinterval = interval;
+	}
+}
+
 void Drawer::Low() {
 	lstepper.Low();
 	rstepper.Low();
 }
 
-// TODO: This function could use some simplification.
-void Drawer::Turn(const int lsteps, const int rsteps,
+void Drawer::Turn(const bool ldirection, const bool rdirection,
+	const unsigned int lsteps, const unsigned int rsteps,
 	const unsigned int linterval, const unsigned int rinterval) {
 	unsigned long llast = 0;
 	unsigned long rlast = 0;
 
-	int li = 0;
-	if (lsteps < 0) {
-		li = abs(lsteps);
-	}
-	int ri = 0;
-	if (rsteps < 0) {
-		ri = abs(rsteps);
-	}
+	unsigned int li = 0;
+	unsigned int ri = 0;
 
-	while ((li >= 0  && li <= abs(lsteps)) || (ri >= 0  && ri <=
-		abs(rsteps))) {
+	while (li <= lsteps || ri <= rsteps) {
 		unsigned long now = millis_get()*1000+(TCNT2*4);
 
 		if (now-llast >= linterval) {
-			if (li >= 0 && li <= abs(lsteps)) {
-				if (lsteps > 0) {
-					lstepper.Step(li);
-					li++;
-				} else {
-					lstepper.Step(li);
-					li--;
-				}
+			if (li <= lsteps) {
+				lstepper.Step(ldirection);
+				li++;
+
 				// TODO: Should I move this down?
 				llast = now;
 			}
 		}
 
 		if (now-rlast >= rinterval) {
-			if (ri >= 0 && ri <= abs(rsteps)) {
-				if (rsteps > 0) {
-					rstepper.Step(ri);
-					ri++;
-				} else {
-					rstepper.Step(ri);
-					ri--;
-				}
+			if (ri <= rsteps) {
+				rstepper.Step(rdirection);
+				ri++;
+
 				// TODO: Should I move this down?
 				rlast = now;
 			}

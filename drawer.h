@@ -20,33 +20,36 @@ private:
 	const unsigned int interval;
 
 	// The distance between the two stepper motors in mm.
-	const unsigned int width;
+	const float width;
 
 	// The vertical distance between the stepper motors and the point
 	// of origin (0,0) in mm.
-	const unsigned int height;
+	const float height;
 
 	// The horizonal distance between the stepper motors and the point
 	// of origin (0,0) in mm.
-	const unsigned int offset;
+	const float offset;
 
-	// The distance of the two cords when the pen is is at (0,0) in
-	// mm.
-	unsigned int cllen = round(sqrt((offset*offset)+(height*height)));
-	unsigned int crlen = round(sqrt((width-offset)*(width-offset)+
-		(height*height)));
+	// Our current cord lengths.
+	float cllen = sqrt((offset*offset)+(height*height));
+	float crlen = sqrt((width-offset)*(width-offset)+(height*height));
 
 	// Our current pen position.
-	unsigned int cx = 0;
-	unsigned int cy = 0;
+	float cx = 0;
+	float cy = 0;
+
 public:
 	Drawer(Stepper &lstepper, Stepper &rstepper,
-		const unsigned int interval=3000,
-		const unsigned int width=520, const unsigned int height=485,
-		const unsigned int offset=240);
+		const unsigned int interval=3000, const float width=565,
+		const float height=450, const float offset=165);
 
 	// TODO: Description.
-	void Goto(unsigned int x, unsigned int y);
+	void Goto(float x, float y);
+
+	// TODO;
+	void Intervals(const unsigned int lsteps,
+		const unsigned int rsteps, unsigned int &linterval,
+		unsigned int &rinterval);
 
 	// Off turns sets all the stepper motor pins to low.
 	void Low();
@@ -57,10 +60,9 @@ public:
 	// stepper motor shoud make. if the step paramate contains a
 	// negative value the steppers will step in a counter clockwise
 	// direcection. The interval parameters are optional.
-	// TODO: Use interval.
-	void Turn(const int lsteps, const int rsteps,
-		const unsigned int linterval=3000,
-		const unsigned int rinterval=3000);
+	void Turn(const bool ldirection, const bool rdirection,
+		const unsigned int lsteps, const unsigned int rsteps,
+		const unsigned int linterval, const unsigned int rinterval);
 };
 
 #endif

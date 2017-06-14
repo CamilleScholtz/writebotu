@@ -20,6 +20,9 @@ private:
 	// The pins the Stepper class should use to interact with the
 	// stepper motor.
 	const int pin0, pin1, pin2, pin3;
+
+	// The last step our stepper motor has set.
+	int step = 0;
 public:
 	Stepper(volatile uint8_t *ddr, volatile uint8_t *port,
 		const int pin0, const int pin1, const int pin2,
@@ -29,14 +32,12 @@ public:
 	void Low();
 
 	// Step makes the stepper motor take a single step.
-	void Step(const int iteration);
+	// TODO
+	void Step(const bool direction);
 
-	// Turn makes the stepper motor Turn. The step parameter
-	// establishes how many steps the stepper motor should make, if
-	// the step paramate contains a negative value the stepper will
-	// step in a counter clockwise direcection. The interval parameter
-	// is again optional.
-	void Turn(const int steps, const unsigned int interval=3);
+	// TODO
+	void Turn(const bool direction, const unsigned int steps,
+	const unsigned int interval=3);
 };
 
 #endif
