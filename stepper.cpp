@@ -52,6 +52,6 @@ void Stepper::Turn(const bool direction, const unsigned int steps,
 	const unsigned int interval) {
 	for (unsigned int i=0; i<steps; i++) {
 		Step(direction);
-		Delay(interval);
+		Delay(interval/1000);
 	}
 }

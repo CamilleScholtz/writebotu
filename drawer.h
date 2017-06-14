@@ -16,7 +16,7 @@ private:
 	// The steppers we want to use.
 	Stepper lstepper, rstepper;
 
-	// The interval our steppers should use.
+	// The interval our steppers should use in us.
 	const unsigned int interval;
 
 	// The distance between the two stepper motors in mm.
@@ -30,6 +30,9 @@ private:
 	// of origin (0,0) in mm.
 	const float offset;
 
+	// Scale sets the scale of our produced writings.
+	const float scale;
+
 	// Our current cord lengths.
 	float cllen = sqrt((offset*offset)+(height*height));
 	float crlen = sqrt((width-offset)*(width-offset)+(height*height));
@@ -37,32 +40,26 @@ private:
 	// Our current pen position.
 	float cx = 0;
 	float cy = 0;
-
 public:
 	Drawer(Stepper &lstepper, Stepper &rstepper,
 		const unsigned int interval=3000, const float width=565,
-		const float height=450, const float offset=165);
+		const float height=450, const float offset=165,
+		const unsigned int scale=18);
 
-	// TODO: Description.
+	// Goto moves the pen to the given coordinates.
 	void Goto(float x, float y);
-
-	// TODO;
-	void Intervals(const unsigned int lsteps,
-		const unsigned int rsteps, unsigned int &linterval,
-		unsigned int &rinterval);
 
 	// Off turns sets all the stepper motor pins to low.
 	void Low();
 
-	// Move makes the stepper motors move. The lstep parameter
-	// establishes how many steps the left stepper motor shoud make
-	// and the rstep parameter establishes how many steps the right
-	// stepper motor shoud make. if the step paramate contains a
-	// negative value the steppers will step in a counter clockwise
-	// direcection. The interval parameters are optional.
+	// Turn turns the stepper motors x amount of steps. {l,r}direction
+	// setting the direction, 0 being countclockwise and 1 being
+	// clockwise, {l/r}steps sets the amount of steps and
+	// {l/r}interval sets the delay between each step.
 	void Turn(const bool ldirection, const bool rdirection,
 		const unsigned int lsteps, const unsigned int rsteps,
-		const unsigned int linterval, const unsigned int rinterval);
+		const unsigned int linterval=3000,
+		const unsigned int rinterval=3000);
 };
 
 #endif

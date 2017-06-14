@@ -9,16 +9,14 @@
 // Stepper is class for simpler interaction with stepper motors.
 class Stepper {
 private:
-	// The data direction register Stepper should use to interact
-	// with the stepper motor.
+	// The data direction register we should use to interact with the
+	// stepper motor.
 	volatile uint8_t *ddr;
 
-	// The IO port Stepper should use to interact with the stepper
-	// motor.
+	// The IO port we should use to interact with the stepper motor.
 	volatile uint8_t *port;
 
-	// The pins the Stepper class should use to interact with the
-	// stepper motor.
+	// The pins we should use to interact with the stepper motor.
 	const int pin0, pin1, pin2, pin3;
 
 	// The last step our stepper motor has set.
@@ -28,16 +26,19 @@ public:
 		const int pin0, const int pin1, const int pin2,
 		const int pin3);
 
-	// Off turns sets all the stepper motor pins to low.
+	// Off sets all the stepper motor pins to low.
 	void Low();
 
-	// Step makes the stepper motor take a single step.
-	// TODO
+	// Step makes the stepper motor take a single step. The direction
+	// parameter set the direction the stepper will step in, 0 being
+	// counterclockwise and 1 being clockwise.
 	void Step(const bool direction);
 
-	// TODO
+	// Turn turns the stepper motor x amount of steps. Direction again
+	// setting the direction, steps set the amount of steps and
+	// interval sets the delay between each step in us.
 	void Turn(const bool direction, const unsigned int steps,
-	const unsigned int interval=3);
+		const unsigned int interval=300);
 };
 
 #endif
