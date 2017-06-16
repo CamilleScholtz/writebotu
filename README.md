@@ -2,17 +2,17 @@ writebotu - Pronounced with a Japanese accent. A small Arduino writing
 bot, written in pure AVR cpp (so no `arduino.h`). Written for my first
 years finals project (IPASS).
 
-## DESCRIPTION
-
-TODO
-
-
 ## INSTALLATION
 
 Install the AVR toolchain and arduino-mk, I created CRUX ports for all
 these tools: https://github.com/onodera-punpun/crux-ports-arduino
 
-Run `make && sudo make upload`.
+
+## USAGE
+
+Generate `svg.h`, a file containing the coordinates our pen should
+move to by running `./svg2h.sh path/to/image.svg`. Afterwards run
+`make && sudo make upload`.
 
 
 ## AUTHORS
