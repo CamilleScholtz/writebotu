@@ -44,7 +44,7 @@ public:
 	Drawer(Stepper &lstepper, Stepper &rstepper,
 		const unsigned int interval=3000, const float width=565,
 		const float height=450, const float offset=165,
-		const unsigned int scale=18);
+		const unsigned int scale=16);
 
 	// Goto moves the pen to the given coordinates.
 	void Goto(float x, float y);
