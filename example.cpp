@@ -1,10 +1,7 @@
 #include <avr/interrupt.h>
 #include <avr/io.h>
 
-#include "drawer.h"
-#include "millis.h"
 #include "stepper.h"
-#include "svg.h"
 
 // Define our left pins and ports.
 #define PINL_DDR  DDRC
@@ -23,21 +20,24 @@
 #define PINR_3    PL3
 
 int main() {
-	// Initialize millis library.
-	millis_init();
-
-	// Enable interrupts.
-	sei();
-
 	// Create our stepper motor objects.
 	Stepper lstepper(&PINL_DDR, &PINL_PORT, PINL_0, PINL_1, PINL_2,
 		PINL_3);
 	Stepper rstepper(&PINR_DDR, &PINR_PORT, PINR_0, PINR_1, PINR_2,
 		PINR_3);
 
-	Drawer d(lstepper, rstepper);
-	Svg(d);
-	d.Low();
+	lstepper.Turn(0, 2000);
+	lstepper.Turn(1, 2000);
+	rstepper.Turn(0, 2000);
+	rstepper.Turn(1, 2000);
+
+	for (unsigned int i=0; i<2000; i++) {
+		lstepper.Step(0);
+		_delay_ms(3);
+	}
+
+	lstepper.Low();
+	rstepper.Low();
 
 	return 0;
 }

@@ -3,8 +3,7 @@
 
 #include <avr/io.h>
 #include <stdlib.h>
-
-#include "util.h"
+#include <util/delay.h>
 
 /// Stepper is class for easy interaction with stepper motors.
 class Stepper {
