@@ -15,7 +15,7 @@ move to by running `./svg2h.sh path/to/image.svg`. Afterwards run
 `make && sudo make upload`.
 
 
-## PICTURES
+## POSTER
 
 ![](./poster.jpg)
 
