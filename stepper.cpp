@@ -51,7 +51,7 @@ void Stepper::step(bool direction) {
 void Stepper::turn(bool direction, unsigned steps,
 	unsigned interval) {
 	for (unsigned i=0; i<steps; i++) {
-		Stepper::step(direction);
+		step(direction);
 		Util::delay(interval/1000);
 	}
 }

@@ -33,7 +33,7 @@ void Drawer::moveto(float x, float y) {
 		linterval = (rsteps*rinterval)/lsteps;
 	}
 
-	Drawer::turn(ldirection, rdirection, round(lsteps), round(rsteps),
+	turn(ldirection, rdirection, round(lsteps), round(rsteps),
 		round(linterval), round(rinterval));
 
 	// Set new values.
