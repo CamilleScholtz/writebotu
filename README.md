@@ -1,6 +1,6 @@
 writebotu - Pronounced with a Japanese accent. A small Arduino writing
-bot, written in pure AVR cpp (so no `arduino.h`). Written for my first
-years finals project (IPASS).
+machine, written in pure AVR cpp (so no `arduino.h`). Written for my
+first years finals project (IPASS).
 
 ## INSTALLATION
 
@@ -13,6 +13,11 @@ these tools: https://github.com/onodera-punpun/crux-ports-arduino
 Generate `svg.h`, a file containing the coordinates our pen should
 move to by running `./svg2h.sh path/to/image.svg`. Afterwards run
 `make && sudo make upload`.
+
+
+## PICTURES
+
+![](./poster.jpg)
 
 
 ## AUTHORS
@@ -31,3 +36,4 @@ V-plotter:
 * https://www.marginallyclever.com/2012/02/drawbot-overview/
 * http://www.instructables.com/id/CNC-HANGING-PLOTTER/
 * http://www.homofaciens.de/technics-machines-v-plotter_en.htm
+
