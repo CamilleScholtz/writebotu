@@ -25,9 +25,9 @@ void Drawer::moveto(float x, float y) {
 	bool rdirection = (rlen <= crlen);
 
 	// Calculate the required intervals. If we don't do this and just
-	// use interval there could be a (big) possibility that one
-	// stepper stops turning earlier than the other, which would
-	// result in line with a turn instead of a straight line.
+	// use `interval` there is be a (big) possibility that one stepper
+	// stops turning earlier than the other, which would result in
+	// line with a turn instead of a straight line.
 	float linterval = (float)interval;
 	float rinterval = (float)interval;
 	if (lsteps > rsteps) {
