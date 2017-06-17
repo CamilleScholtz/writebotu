@@ -18,14 +18,13 @@ private:
 	volatile uint8_t *port;
 
 	/// The pins we should use to interact with the stepper motor.
-	const int pin0, pin1, pin2, pin3;
+	int pin0, pin1, pin2, pin3;
 
 	/// The last step our stepper motor has set.
 	int step = 0;
 public:
-	Stepper(volatile uint8_t *ddr, volatile uint8_t *port,
-		const int pin0, const int pin1, const int pin2,
-		const int pin3);
+	Stepper(volatile uint8_t *ddr, volatile uint8_t *port, int pin0,
+		int pin1, int pin2, int pin3);
 
 	/// Off sets all the stepper motor pins to low.
 	void Low();
@@ -34,13 +33,12 @@ public:
 	/// `direction` parameter set the direction the stepper will step
 	/// in, 0 being a counterclockwise direction and 1 being a
 	/// clockwise direction.
-	void Step(const bool direction);
+	void Step(bool direction);
 
 	/// Turn turns the stepper motor `steps` amount of steps.
 	/// `direction` again setting the direction we should step in and
 	/// `interval` setting the delay between each step in μs.
-	void Turn(const bool direction, const unsigned int steps,
-		const unsigned int interval=300);
+	void Turn(bool direction, unsigned steps, unsigned interval=300);
 };
 
 #endif

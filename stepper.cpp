@@ -1,7 +1,7 @@
 #include "stepper.h"
 
 Stepper::Stepper(volatile uint8_t *ddr, volatile uint8_t *port,
-	const int pin0, const int pin1, const int pin2, const int pin3):
+	int pin0, int pin1, int pin2, int pin3):
 	ddr(ddr), port(port), pin0(pin0), pin1(pin1), pin2(pin2),
 	pin3(pin3)
 {
@@ -13,7 +13,7 @@ void Stepper::Low() {
 	*port = 0b00000000;
 }
 
-void Stepper::Step(const bool direction) {
+void Stepper::Step(bool direction) {
 	if (direction) {
 		step = ((step+1)%8+8)%8;
 	} else {
@@ -48,9 +48,9 @@ void Stepper::Step(const bool direction) {
 	}
 }
 
-void Stepper::Turn(const bool direction, const unsigned int steps,
-	const unsigned int interval) {
-	for (unsigned int i=0; i<steps; i++) {
+void Stepper::Turn(bool direction, unsigned steps,
+	unsigned interval) {
+	for (unsigned i=0; i<steps; i++) {
 		Step(direction);
 		Delay(interval/1000);
 	}

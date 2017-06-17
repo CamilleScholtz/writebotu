@@ -17,23 +17,23 @@ private:
 	Stepper lstepper, rstepper;
 
 	/// The minimum intervals our steppers should use in μs.
-	const unsigned int interval;
+	unsigned interval;
 
 	/// The distance between the two stepper motors in mm.
-	const float width;
+	float width;
 
 	/// The vertical distance between the stepper motors and the point
 	/// of origin (0,0) in mm. In our case the origin is the bottom
 	/// left corner of our drawing area.
-	const float height;
+	float height;
 
 	/// The horizonal distance between the stepper motors and the
 	/// point of origin (0,0) in mm. Again, our origin is the bottom
 	/// left corner of our drawing area.
-	const float offset;
+	float offset;
 
 	/// The scale of our produced writings.
-	const float scale;
+	float scale;
 
 	/// Our current cord lengths. This value will be altered later on
 	/// by the `Goto()` function to reflect chancges.
@@ -46,9 +46,8 @@ private:
 	float cy = 0;
 public:
 	Drawer(Stepper &lstepper, Stepper &rstepper,
-		const unsigned int interval=3000, const float width=565,
-		const float height=450, const float offset=165,
-		const unsigned int scale=16);
+		unsigned interval=3000, float width=520, float height=510,
+		float offset=155, unsigned scale=16);
 
 	/// Goto moves the pen to the given coordinates.
 	void Goto(float x, float y);
@@ -61,10 +60,9 @@ public:
 	/// directions, 0 being a countclockwise direction and 1 being a
 	/// clockwise direction. `linterval` and `rinterval`
 	/// set the delay between each step for the respective steppers.
-	void Turn(const bool ldirection, const bool rdirection,
-		const unsigned int lsteps, const unsigned int rsteps,
-		const unsigned int linterval=3000,
-		const unsigned int rinterval=3000);
+	void Turn(bool ldirection, bool rdirection, unsigned lsteps,
+		unsigned rsteps, unsigned linterval=3000,
+		unsigned rinterval=3000);
 };
 
 #endif

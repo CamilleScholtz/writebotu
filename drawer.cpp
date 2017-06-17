@@ -1,24 +1,23 @@
 #include "drawer.h"
 
 Drawer::Drawer(Stepper &lstepper, Stepper &rstepper,
-	const unsigned int interval, const float width,
-	const float height, const float offset, const unsigned int scale):
+	unsigned interval, float width, float height, float offset,
+	unsigned scale):
 	lstepper(lstepper), rstepper(rstepper), interval(interval),
 	width(width), height(height), offset(offset), scale(scale)
 {}
 
 void Drawer::Goto(float x, float y) {
 	// Calculate the target cord lengths.
-	const float llen = sqrt((offset+x)*(offset+x)+
-		(height-y)*(height-y));
-	const float rlen = sqrt((width-offset-x)*
-		(width-offset-x)+(height-y)*(height-y));
+	float llen = sqrt((offset+x)*(offset+x)+(height-y)*(height-y));
+	float rlen = sqrt((width-offset-x)*(width-offset-x)+(height-y)*
+		(height-y));
 
 	// Calculate the required stepper motor steps and direction.
-	const float lsteps = fabs(llen-cllen)*scale;
-	const float rsteps = fabs(rlen-crlen)*scale;
-	const bool ldirection = (llen >= cllen);
-	const bool rdirection = (rlen <= crlen);
+	float lsteps = fabs(llen-cllen)*scale;
+	float rsteps = fabs(rlen-crlen)*scale;
+	bool ldirection = (llen >= cllen);
+	bool rdirection = (rlen <= crlen);
 
 	// Calculate the required intervals.
 	float linterval = (float)interval;
@@ -33,10 +32,10 @@ void Drawer::Goto(float x, float y) {
 		round(linterval), round(rinterval));
 
 	// Set new values.
-	cllen = llen;
-	crlen = rlen;
 	cx = x;
 	cy = y;
+	cllen = llen;
+	crlen = rlen;
 }
 
 void Drawer::Low() {
@@ -44,13 +43,12 @@ void Drawer::Low() {
 	rstepper.Low();
 }
 
-void Drawer::Turn(const bool ldirection, const bool rdirection,
-	const unsigned int lsteps, const unsigned int rsteps,
-	const unsigned int linterval, const unsigned int rinterval) {
+void Drawer::Turn(bool ldirection, bool rdirection, unsigned lsteps,
+	unsigned rsteps, unsigned linterval, unsigned rinterval) {
 	unsigned long llast = 0;
 	unsigned long rlast = 0;
-	unsigned int li = 0;
-	unsigned int ri = 0;
+	unsigned li = 0;
+	unsigned ri = 0;
 
 	while (li <= lsteps || ri <= rsteps) {
 		millis_t now = millis_get()*1000+(TCNT2*4);
