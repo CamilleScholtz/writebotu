@@ -5,7 +5,7 @@ Stepper::Stepper(volatile uint8_t *ddr, volatile uint8_t *port,
 	ddr(ddr), port(port), pin0(pin0), pin1(pin1), pin2(pin2),
 	pin3(pin3)
 {
-	// This allows us to write to our pins.
+	// This is to allow to write to the given pins.
 	*ddr |= _BV(pin0) | _BV(pin1) | _BV(pin2) | _BV(pin3);
 }
 

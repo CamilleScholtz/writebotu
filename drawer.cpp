@@ -18,13 +18,16 @@ void Drawer::moveto(float x, float y) {
 	float rlen = sqrt((width-offset-x)*(width-offset-x)+(height-y)*
 		(height-y));
 
-	// Calculate the required stepper motor steps and direction.
+	// Calculate the required steps and direction, also apply scaling.
 	float lsteps = fabs(llen-cllen)*scale;
 	float rsteps = fabs(rlen-crlen)*scale;
 	bool ldirection = (llen >= cllen);
 	bool rdirection = (rlen <= crlen);
 
-	// Calculate the required intervals.
+	// Calculate the required intervals. If we don't do this and just
+	// use interval there could be a (big) possibility that one
+	// stepper stops turning earlier than the other, which would
+	// result in line with a turn instead of a straight line.
 	float linterval = (float)interval;
 	float rinterval = (float)interval;
 	if (lsteps > rsteps) {
@@ -33,14 +36,16 @@ void Drawer::moveto(float x, float y) {
 		linterval = (rsteps*rinterval)/lsteps;
 	}
 
+	// Turn the stepper motors till the required cord lengths are
+	// achieved.
 	turn(ldirection, rdirection, round(lsteps), round(rsteps),
 		round(linterval), round(rinterval));
 
 	// Set new values.
-	cx = x;
-	cy = y;
 	cllen = llen;
 	crlen = rlen;
+	cx = x;
+	cy = y;
 }
 
 void Drawer::turn(bool ldirection, bool rdirection, unsigned lsteps,
@@ -51,24 +56,35 @@ void Drawer::turn(bool ldirection, bool rdirection, unsigned lsteps,
 	unsigned ri = 0;
 
 	while (li <= lsteps || ri <= rsteps) {
+		// Get the current time in μs.
 		millis_t now = millis_get()*1000+(TCNT2*4);
 
+		// If the current time minus the last time the left stepper
+		// turned is equal or bigger than the interval for the left
+		// stepper, turn the stepper.
 		if (now-llast >= linterval) {
 			if (li <= lsteps) {
 				lstepper.step(ldirection);
 				li++;
 
 				// TODO: Should I move this down?
+				// Save the current time as the last time the left
+				// stepper did something.
 				llast = now;
 			}
 		}
 
+		// If the current time minus the last time the right stepper
+		// turned is equal or bigger than the interval for the right
+		// stepper, turn the stepper.
 		if (now-rlast >= rinterval) {
 			if (ri <= rsteps) {
 				rstepper.step(rdirection);
 				ri++;
 
 				// TODO: Should I move this down?
+				// Save the current time as the last time the right
+				// stepper did something.
 				rlast = now;
 			}
 		}

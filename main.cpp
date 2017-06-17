@@ -23,18 +23,19 @@
 #define PINR_3    PL3
 
 int main() {
-	// Initialize millis library.
+	// Initialize the millis library.
 	millis_init();
 
 	// Enable interrupts.
 	sei();
 
-	// Create our stepper motor objects.
+	// Create Stepper objects.
 	Stepper lstepper(&PINL_DDR, &PINL_PORT, PINL_0, PINL_1, PINL_2,
 		PINL_3);
 	Stepper rstepper(&PINR_DDR, &PINR_PORT, PINR_0, PINR_1, PINR_2,
 		PINR_3);
 
+	// Initialize the Drawer object and draw the generates svg file.
 	Drawer d(lstepper, rstepper);
 	svg(d);
 	d.low();

@@ -16,31 +16,37 @@ private:
 	/// The steppers we want to use.
 	Stepper lstepper, rstepper;
 
-	/// The minimum intervals our steppers should use in μs.
+	/// The minimum intervals the steppers should use in μs. This
+	/// value can be bigger depending on the required intervals
+	/// `moveto()` calculates.
 	unsigned interval;
 
-	/// The distance between the two stepper motors in mm.
+	/// The distance between the two steppers in mm. Take note, this
+	/// is not the center of the spool, but the position where the
+	/// cord leaves the spool.
 	float width;
 
-	/// The vertical distance between the stepper motors and the point
-	/// of origin (0,0) in mm. In our case the origin is the bottom
+	/// The vertical distance between the steppers and the point of
+	/// origin (0,0) in mm. In our case the origin is the bottom
 	/// left corner of our drawing area.
 	float height;
 
 	/// The horizonal distance between the stepper motors and the
 	/// point of origin (0,0) in mm. Again, our origin is the bottom
-	/// left corner of our drawing area.
+	/// left corner of our drawing area. Also, again, don't measure
+	/// from the center of the spool, but from the position where the
+	/// cord leaves the spool.
 	float offset;
 
-	/// The scale of our produced writings.
+	/// The scale of the produced writings.
 	float scale;
 
-	/// Our current cord lengths. This value will be altered later on
-	/// by the `moveto()` function to reflect chancges.
+	/// The current cord lengths. This value will be altered later on
+	/// by the `moveto()` function to reflect changes.
 	float cllen = sqrt((offset*offset)+(height*height));
 	float crlen = sqrt((width-offset)*(width-offset)+(height*height));
 
-	/// Our current pen position. Also this value will be altered
+	/// The current pen position. Also this value will be altered
 	/// later on by the `moveto()` function to reflect chancges.
 	float cx = 0;
 	float cy = 0;
@@ -49,7 +55,7 @@ public:
 		unsigned interval=3000, float width=520, float height=510,
 		float offset=155, unsigned scale=16);
 
-	/// off turns sets all the stepper motor pins to low.
+	/// off sets all the stepper motor pins to low.
 	void low();
 
 	/// moveto moves the pen to the given coordinates.
