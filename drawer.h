@@ -36,12 +36,12 @@ private:
 	float scale;
 
 	/// Our current cord lengths. This value will be altered later on
-	/// by the `Goto()` function to reflect chancges.
+	/// by the `moveto()` function to reflect chancges.
 	float cllen = sqrt((offset*offset)+(height*height));
 	float crlen = sqrt((width-offset)*(width-offset)+(height*height));
 
 	/// Our current pen position. Also this value will be altered
-	/// later on by the `Goto()` function to reflect chancges.
+	/// later on by the `moveto()` function to reflect chancges.
 	float cx = 0;
 	float cy = 0;
 public:
@@ -49,18 +49,18 @@ public:
 		unsigned interval=3000, float width=520, float height=510,
 		float offset=155, unsigned scale=16);
 
-	/// Goto moves the pen to the given coordinates.
-	void Goto(float x, float y);
+	/// off turns sets all the stepper motor pins to low.
+	void low();
 
-	/// Off turns sets all the stepper motor pins to low.
-	void Low();
+	/// moveto moves the pen to the given coordinates.
+	void moveto(float x, float y);
 
-	/// Turn turns the stepper motors `steps` amount of steps.
+	/// turn turns the stepper motors `steps` amount of steps.
 	/// `ldirection` and `rdirection` setting the respective
 	/// directions, 0 being a countclockwise direction and 1 being a
 	/// clockwise direction. `linterval` and `rinterval`
 	/// set the delay between each step for the respective steppers.
-	void Turn(bool ldirection, bool rdirection, unsigned lsteps,
+	void turn(bool ldirection, bool rdirection, unsigned lsteps,
 		unsigned rsteps, unsigned linterval=3000,
 		unsigned rinterval=3000);
 };

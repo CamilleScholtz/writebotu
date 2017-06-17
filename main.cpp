@@ -36,8 +36,8 @@ int main() {
 		PINR_3);
 
 	Drawer d(lstepper, rstepper);
-	Svg(d);
-	d.Low();
+	svg(d);
+	d.low();
 
 	return 0;
 }

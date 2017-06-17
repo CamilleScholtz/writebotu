@@ -7,7 +7,12 @@ Drawer::Drawer(Stepper &lstepper, Stepper &rstepper,
 	width(width), height(height), offset(offset), scale(scale)
 {}
 
-void Drawer::Goto(float x, float y) {
+void Drawer::low() {
+	lstepper.low();
+	rstepper.low();
+}
+
+void Drawer::moveto(float x, float y) {
 	// Calculate the target cord lengths.
 	float llen = sqrt((offset+x)*(offset+x)+(height-y)*(height-y));
 	float rlen = sqrt((width-offset-x)*(width-offset-x)+(height-y)*
@@ -28,7 +33,7 @@ void Drawer::Goto(float x, float y) {
 		linterval = (rsteps*rinterval)/lsteps;
 	}
 
-	Turn(ldirection, rdirection, round(lsteps), round(rsteps),
+	Drawer::turn(ldirection, rdirection, round(lsteps), round(rsteps),
 		round(linterval), round(rinterval));
 
 	// Set new values.
@@ -38,12 +43,7 @@ void Drawer::Goto(float x, float y) {
 	crlen = rlen;
 }
 
-void Drawer::Low() {
-	lstepper.Low();
-	rstepper.Low();
-}
-
-void Drawer::Turn(bool ldirection, bool rdirection, unsigned lsteps,
+void Drawer::turn(bool ldirection, bool rdirection, unsigned lsteps,
 	unsigned rsteps, unsigned linterval, unsigned rinterval) {
 	unsigned long llast = 0;
 	unsigned long rlast = 0;
@@ -55,7 +55,7 @@ void Drawer::Turn(bool ldirection, bool rdirection, unsigned lsteps,
 
 		if (now-llast >= linterval) {
 			if (li <= lsteps) {
-				lstepper.Step(ldirection);
+				lstepper.step(ldirection);
 				li++;
 
 				// TODO: Should I move this down?
@@ -65,7 +65,7 @@ void Drawer::Turn(bool ldirection, bool rdirection, unsigned lsteps,
 
 		if (now-rlast >= rinterval) {
 			if (ri <= rsteps) {
-				rstepper.Step(rdirection);
+				rstepper.step(rdirection);
 				ri++;
 
 				// TODO: Should I move this down?

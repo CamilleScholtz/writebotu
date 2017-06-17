@@ -1,6 +1,6 @@
 #include "util.h"
 
-void Delay(unsigned ms) {
+void Util::delay(unsigned ms) {
 	for (unsigned i=0; i<ms; i++) {
 		_delay_ms(1);
 	}
