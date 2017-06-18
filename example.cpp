@@ -20,7 +20,7 @@
 #define PINR_3    PL3
 
 int main() {
-	// Create our stepper motor objects.
+	// Create Stepper objects.
 	Stepper lstepper(&PINL_DDR, &PINL_PORT, PINL_0, PINL_1, PINL_2,
 		PINL_3);
 	Stepper rstepper(&PINR_DDR, &PINR_PORT, PINR_0, PINR_1, PINR_2,

@@ -1,26 +1,26 @@
 #include "stepper.h"
 
 Stepper::Stepper(volatile uint8_t *ddr, volatile uint8_t *port,
-	const int pin0, const int pin1, const int pin2, const int pin3):
+	int pin0, int pin1, int pin2, int pin3):
 	ddr(ddr), port(port), pin0(pin0), pin1(pin1), pin2(pin2),
 	pin3(pin3)
 {
-	// This allows us to write to our pins.
+	// This is to allow to write to the given pins.
 	*ddr |= _BV(pin0) | _BV(pin1) | _BV(pin2) | _BV(pin3);
 }
 
-void Stepper::Low() {
+void Stepper::low() {
 	*port = 0b00000000;
 }
 
-void Stepper::Step(const bool direction) {
+void Stepper::step(bool direction) {
 	if (direction) {
-		step = ((step+1)%8+8)%8;
+		last = ((last+1)%8+8)%8;
 	} else {
-		step = ((step-1)%8+8)%8;
+		last = ((last-1)%8+8)%8;
 	}
 
-	switch (step) {
+	switch (last) {
 	case 0:
 		*port = _BV(pin0);
 		break;
@@ -48,10 +48,27 @@ void Stepper::Step(const bool direction) {
 	}
 }
 
-void Stepper::Turn(const bool direction, const unsigned int steps,
-	const unsigned int interval) {
-	for (unsigned int i=0; i<steps; i++) {
-		Step(direction);
-		_delay_ms(interval/1000);
+void Stepper::turn(bool direction, unsigned steps,
+	unsigned interval) {
+	for (unsigned i=0; i<steps; i++) {
+		step(direction);
+		_delay_ms(3);
 	}
 }
+
+#if DEBUG
+int Stepper::low_test() {
+	low();
+	assert(*port==0b00000000);
+
+	return 0;
+}
+
+int Stepper::step_test() {
+	last = 7;
+	step(1);
+	assert(last==0);
+
+	return 0;
+}
+#endif

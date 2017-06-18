@@ -2,7 +2,7 @@ DOXYFILE_ENCODING = UTF-8
 
 PROJECT_NAME = "Writebotu"
 PROJECT_BRIEF = "Pronounced with a Japanese accent. A small Arduino \
-writing bot, written in pure AVR cpp (so no arduino.h). Written for \
+writing machine, written in pure AVR cpp (so no arduino.h). Written for \
 my first years finals project (IPASS)."
 
 OUTPUT_DIRECTORY =
