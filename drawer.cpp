@@ -90,3 +90,24 @@ void Drawer::turn(bool ldirection, bool rdirection, unsigned lsteps,
 		}
 	}
 }
+
+#if DEBUG
+int Drawer::moveto_test() {
+	moveto(10, 10);
+	assert(cx==10);
+	assert(cy==10);
+	assert(cllen==sqrt((offset+10)*(offset+10)+(height-10)*
+		(height-10)));
+	assert(crlen==sqrt((width-offset-10)*(width-offset-10)+
+		(height-10)*(height-10)));
+
+	moveto(0, 0);
+	assert(cx==0);
+	assert(cy==0);
+	assert(cllen==sqrt((offset*offset)+(height*height)));
+	assert(crlen==sqrt((width-offset)*(width-offset)+
+		(height*height)));
+
+	return 0;
+}
+#endif

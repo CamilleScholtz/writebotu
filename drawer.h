@@ -1,6 +1,9 @@
 #ifndef DRAWER_H
 #define DRAWER_H
 
+#if DEBUG
+#include <assert.h>
+#endif
 #include <avr/io.h>
 #include <math.h>
 #include <stdlib.h>
@@ -69,6 +72,11 @@ public:
 	void turn(bool ldirection, bool rdirection, unsigned lsteps,
 		unsigned rsteps, unsigned linterval=3000,
 		unsigned rinterval=3000);
+
+	// Various unit tests.
+	#if DEBUG
+	int moveto_test();
+	#endif
 };
 
 #endif

@@ -55,3 +55,20 @@ void Stepper::turn(bool direction, unsigned steps,
 		Util::delay(interval/1000);
 	}
 }
+
+#if DEBUG
+int Stepper::low_test() {
+	low();
+	assert(*port==0b00000000);
+
+	return 0;
+}
+
+int Stepper::step_test() {
+	last = 7;
+	step(1);
+	assert(last==0);
+
+	return 0;
+}
+#endif

@@ -1,6 +1,9 @@
 #ifndef STEPPER_H
 #define STEPPER_H
 
+#if DEBUG
+#include <assert.h>
+#endif
 #include <avr/io.h>
 #include <stdlib.h>
 
@@ -39,6 +42,12 @@ public:
 	/// `direction` again setting the direction we should step in and
 	/// `interval` setting the delay between each step in μs.
 	void turn(bool direction, unsigned steps, unsigned interval=3000);
+
+	// Various unit tests.
+	#if DEBUG
+	int low_test();
+	int step_test();
+	#endif
 };
 
 #endif

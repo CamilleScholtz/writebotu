@@ -35,7 +35,7 @@ int main() {
 	Stepper rstepper(&PINR_DDR, &PINR_PORT, PINR_0, PINR_1, PINR_2,
 		PINR_3);
 
-	// Initialize the Drawer object and draw the generates svg file.
+	// Initialize the Drawer object and draw the generated svg file.
 	Drawer d(lstepper, rstepper);
 	svg(d);
 	d.low();
